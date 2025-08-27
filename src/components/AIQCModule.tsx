@@ -19,6 +19,7 @@ export const AIQCModule: React.FC = () => {
   const [assignmentFile, setAssignmentFile] = useState<FileUpload | null>(null);
   const [assignmentText, setAssignmentText] = useState('');
   const [completedFile, setCompletedFile] = useState<FileUpload | null>(null);
+  const [otherFiles, setOtherFiles] = useState<FileUpload[]>([]);
   const [nickname, setNickname] = useState('');
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isGeneratingModalOpen, setIsGeneratingModalOpen] = useState(false);
@@ -28,6 +29,7 @@ export const AIQCModule: React.FC = () => {
   
   const assignmentFileRef = useRef<HTMLInputElement>(null);
   const completedFileRef = useRef<HTMLInputElement>(null);
+  const otherFilesRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const supportedFormats = ['doc', 'docx', 'pdf', 'txt', 'pages', 'ppt', 'pptx', 'key', 'xls', 'xlsx', 'jpg', 'jpeg', 'png'];
@@ -82,6 +84,46 @@ export const AIQCModule: React.FC = () => {
     if (fileRef.current) {
       fileRef.current.value = '';
     }
+  }, []);
+
+  const handleOtherFilesUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length === 0) return;
+
+    const validFiles = files.filter(file => {
+      if (!validateFile(file)) {
+        toast({
+          title: "文件格式不支持",
+          description: `文件 ${file.name} 格式不支持，请上传以下格式: ${supportedFormats.join(', ')}`,
+          variant: "destructive",
+        });
+        return false;
+      }
+      return true;
+    });
+
+    const newFiles = validFiles.map(file => ({
+      file,
+      id: Math.random().toString(36).substr(2, 9),
+    }));
+
+    setOtherFiles(prev => [...prev, ...newFiles]);
+    
+    if (newFiles.length > 0) {
+      toast({
+        title: "文件上传成功",
+        description: `已上传 ${newFiles.length} 个文件`,
+      });
+    }
+
+    // Reset input
+    if (otherFilesRef.current) {
+      otherFilesRef.current.value = '';
+    }
+  }, [toast]);
+
+  const removeOtherFile = useCallback((fileId: string) => {
+    setOtherFiles(prev => prev.filter(f => f.id !== fileId));
   }, []);
 
   const handleSubmitQC = () => {
@@ -263,6 +305,70 @@ export const AIQCModule: React.FC = () => {
                 className="hidden"
                 accept={supportedFormats.map(ext => `.${ext}`).join(',')}
                 onChange={(e) => handleFileUpload(e, setCompletedFile, completedFile)}
+              />
+            </div>
+
+            {/* 其他资料上传区域 */}
+            <div className="space-y-4 opacity-75">
+              <Label className="text-base font-medium text-muted-foreground">其他资料 <span className="text-xs">(选填)</span></Label>
+              
+              <div
+                className="border border-dashed border-border/60 rounded-lg p-4 text-center cursor-pointer transition-colors hover:border-primary/30 hover:bg-accent/30"
+                onClick={() => otherFilesRef.current?.click()}
+              >
+                {otherFiles.length > 0 ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-center space-x-2 mb-3">
+                      <FileText className="w-5 h-5 text-primary/60" />
+                      <span className="text-sm text-muted-foreground">已上传 {otherFiles.length} 个文件</span>
+                    </div>
+                    <div className="max-h-32 overflow-y-auto space-y-1">
+                      {otherFiles.map((fileUpload) => (
+                        <div key={fileUpload.id} className="flex items-center justify-between p-2 bg-background/50 rounded border">
+                          <div className="flex items-center space-x-2 flex-1 text-left">
+                            <FileText className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-foreground/80 truncate">{fileUpload.file.name}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {(fileUpload.file.size / 1024 / 1024).toFixed(2)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeOtherFile(fileUpload.id);
+                            }}
+                            className="ml-2 flex-shrink-0"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-2">
+                      点击继续添加更多文件
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <Upload className="w-8 h-8 text-muted-foreground/60 mx-auto mb-2" />
+                    <p className="text-muted-foreground/80 mb-1 text-sm">点击上传其他资料（可选）</p>
+                    <p className="text-xs text-muted-foreground/60">
+                      支持多个文件，格式: {supportedFormats.join(', ')}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <input
+                ref={otherFilesRef}
+                type="file"
+                className="hidden"
+                multiple
+                accept={supportedFormats.map(ext => `.${ext}`).join(',')}
+                onChange={handleOtherFilesUpload}
               />
             </div>
 
