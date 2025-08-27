@@ -309,27 +309,27 @@ export const AIQCModule: React.FC = () => {
             </div>
 
             {/* 其他资料上传区域 */}
-            <div className="space-y-4 opacity-75">
-              <Label className="text-base font-medium text-muted-foreground">其他资料 <span className="text-xs">(选填)</span></Label>
+            <div className="space-y-4">
+              <Label className="text-lg font-semibold text-foreground">其他资料 <span className="text-sm text-muted-foreground">(选填)</span></Label>
               
               <div
-                className="border border-dashed border-border/60 rounded-lg p-4 text-center cursor-pointer transition-colors hover:border-primary/30 hover:bg-accent/30"
+                className="border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer transition-colors hover:border-primary/50 hover:bg-accent/50"
                 onClick={() => otherFilesRef.current?.click()}
               >
                 {otherFiles.length > 0 ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-center space-x-2 mb-3">
-                      <FileText className="w-5 h-5 text-primary/60" />
-                      <span className="text-sm text-muted-foreground">已上传 {otherFiles.length} 个文件</span>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-center space-x-2 mb-4">
+                      <FileText className="w-8 h-8 text-primary" />
+                      <span className="text-base font-medium text-foreground">已上传 {otherFiles.length} 个文件</span>
                     </div>
-                    <div className="max-h-32 overflow-y-auto space-y-1">
+                    <div className="max-h-40 overflow-y-auto space-y-2">
                       {otherFiles.map((fileUpload) => (
-                        <div key={fileUpload.id} className="flex items-center justify-between p-2 bg-background/50 rounded border">
-                          <div className="flex items-center space-x-2 flex-1 text-left">
-                            <FileText className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                        <div key={fileUpload.id} className="flex items-center justify-between p-3 bg-background/50 rounded-lg border">
+                          <div className="flex items-center space-x-3 flex-1 text-left">
+                            <FileText className="w-6 h-6 text-primary flex-shrink-0" />
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-foreground/80 truncate">{fileUpload.file.name}</p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className="font-medium text-foreground truncate">{fileUpload.file.name}</p>
+                              <p className="text-sm text-muted-foreground">
                                 {(fileUpload.file.size / 1024 / 1024).toFixed(2)} MB
                               </p>
                             </div>
@@ -343,20 +343,20 @@ export const AIQCModule: React.FC = () => {
                             }}
                             className="ml-2 flex-shrink-0"
                           >
-                            <X className="w-3 h-3" />
+                            <X className="w-4 h-4" />
                           </Button>
                         </div>
                       ))}
                     </div>
-                    <div className="text-xs text-muted-foreground mt-2">
+                    <div className="text-sm text-muted-foreground mt-3">
                       点击继续添加更多文件
                     </div>
                   </div>
                 ) : (
                   <div>
-                    <Upload className="w-8 h-8 text-muted-foreground/60 mx-auto mb-2" />
-                    <p className="text-muted-foreground/80 mb-1 text-sm">点击上传其他资料（可选）</p>
-                    <p className="text-xs text-muted-foreground/60">
+                    <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground mb-2">点击上传其他资料（可选）</p>
+                    <p className="text-xs text-muted-foreground">
                       支持多个文件，格式: {supportedFormats.join(', ')}
                     </p>
                   </div>
