@@ -34,7 +34,7 @@ export const Navigation: React.FC = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent"
             >
-              AI QC
+              Deeppaper
             </button>
           </div>
 
@@ -44,7 +44,7 @@ export const Navigation: React.FC = () => {
               onClick={() => scrollToSection('ai-qc')}
               className="text-foreground hover:text-primary transition-colors font-medium"
             >
-              AI QC
+              智能检测
             </button>
             <button
               onClick={() => scrollToSection('introduction')}
@@ -81,7 +81,7 @@ export const Navigation: React.FC = () => {
                 onClick={() => scrollToSection('ai-qc')}
                 className="block px-3 py-2 text-base font-medium text-foreground hover:text-primary hover:bg-accent/50 rounded-md transition-colors w-full text-left"
               >
-                AI QC
+                智能检测
               </button>
               <button
                 onClick={() => scrollToSection('introduction')}

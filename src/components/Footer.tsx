@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
           {/* Logo和描述 */}
           <div className="space-y-4">
             <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              AI QC
+              Deeppaper
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               专业的AI质量检测平台，为您的学术作业提供智能化的质量分析与优化建议。
@@ -64,7 +64,7 @@ export const Footer: React.FC = () => {
         {/* 底部信息 */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-muted-foreground">
-            © 2024 AI QC. 保护您的学术隐私，提升作业质量。
+            © 2024 Deeppaper. 保护您的学术隐私，提升作业质量。
           </div>
           
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
