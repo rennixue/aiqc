@@ -36,14 +36,14 @@ export const HeroSection: React.FC = () => {
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
-                作业质量智能检测
+                智能作业
               </span>
+              <br />
+              <span className="text-foreground">质量检测</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              基于前沿AI技术，为您的作业和论文提供专业的质量分析与优化建议
-              <br />
-              <span className="text-primary font-medium">无需登录，即刻体验</span>
+              无需登录，即刻体验
             </p>
           </div>
 
